@@ -442,11 +442,6 @@ public final class DeviceFilter {
 
 	@Override
 	public boolean equals(final Object obj) {
-		// can't compare if we have wildcard strings
-		if (mVendorId == -1 || mProductId == -1 || mClass == -1
-				|| mSubclass == -1 || mProtocol == -1) {
-			return false;
-		}
 		if (obj instanceof DeviceFilter) {
 			final DeviceFilter filter = (DeviceFilter) obj;
 
@@ -472,9 +467,14 @@ public final class DeviceFilter {
 							.equals(filter.mSerialNumber))) {
 				return false;
 			}
-			return (filter.isExclude != isExclude);
+			return (filter.isExclude == isExclude);
 		}
 		if (obj instanceof UsbDevice) {
+			// Wildcards match devices through matches(), not equals().
+			if (mVendorId == -1 || mProductId == -1 || mClass == -1
+					|| mSubclass == -1 || mProtocol == -1) {
+				return false;
+			}
 			final UsbDevice device = (UsbDevice) obj;
 			if (isExclude
 					|| (device.getVendorId() != mVendorId)
@@ -525,3 +525,4 @@ public final class DeviceFilter {
 	}
 
 }
+

@@ -70,8 +70,10 @@ task ndkClean(type: Exec, description: 'clean JNI libraries') {
 clean.dependsOn 'ndkClean'
 */
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
 	implementation "androidx.appcompat:appcompat:${androidXVersion}"
 	implementation 'com.elvishew:xlog:1.11.0'
 //	implementation project(path: ':libuvccommon')
 }
+
